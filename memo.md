@@ -267,6 +267,34 @@ if __name__ == '__main__':
                         print node["Node"]["Address"] + "weight 1"
                         change_weight_realserver(node["Node"]["Address"], 1)
 ```
+- ホスト毎落ちるとダメだった...
+  - hostがcriticalでもserviceがpassingな状態がありうる
+  - 当然hostがpassingでserviceがcriticalの状態(プロセスが落ちてる)こともあるわけで...
+  - どっちかがcriticalならweghit0とかにしないとダメっぽい
+```
+        "Checks": [
+            {
+                "Node": "test07",
+                "CheckID": "serfHealth",
+                "Name": "Serf Health Status",
+                "Status": "critical",
+                "Notes": "",
+                "Output": "Agent not live or unreachable",
+                "ServiceID": "",
+                "ServiceName": ""
+            },
+            {
+                "Node": "test07",
+                "CheckID": "service:web",
+                "Name": "Service 'web' check",
+                "Status": "passing",
+                "Notes": "",
+                "Output": "",
+                "ServiceID": "web",
+                "ServiceName": "web"
+            }
+        ]
+```
 
 # 気がついたこと
 - daemon化どうしようか？
